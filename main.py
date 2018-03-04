@@ -60,14 +60,14 @@ def recommend():
     pred = clf.predict_proba(vector)
     for i in range(len(pred)):
         if breakfast_time:
+            population = inverted_dataset[i]
+            result.extend(random.sample(population, int(pred[i] * len(population))))
+        else:
             if i == 2 or i == 5:
                 population = inverted_dataset[i]
             else:
                 population = inverted_dataset[i + 6]
-            result.extend(random.sample(population, pred[i] * len(population)))
-        else:
-            population = inverted_dataset[i + 6]
-            result.extend(random.sample(population, pred[i] * len(population)))
+            result.extend(random.sample(population, int(pred[i] * len(population))))
     # except Exception as e:
     #     print(str(sys.exc_info()[1]))
     #     return app.response_class(
