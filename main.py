@@ -90,7 +90,7 @@ def request_for_page(i):
         i = int(i)
         index = i
         if data:
-            if not data.get("isBreakfast", 0):
+            if data.get("isBreakfast", 0):
                 index = i
             else:
                 if i == 2 or i == 5:
