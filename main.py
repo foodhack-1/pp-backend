@@ -66,20 +66,21 @@ def recommend():
         is_employed = data.get('occupation', 0)
         gender = data.get('sex', 0)
         subscriptions = data.get('subscriptions', [])
-        is_healthy_eating = bool(HEALTHY_PUBLICS.intersection(subscriptions))
+        is_healthy_eating = int(bool(HEALTHY_PUBLICS.intersection(subscriptions)))
         weight = data.get('weight', 0)
 
         vector = np.expand_dims(np.array([is_sporty, is_single, is_active, is_employed, gender, is_healthy_eating,
                                           weight]), axis=1)
     pred = predict(vector)
     result = []
-    for i in range(len(pred)):
-        if breakfast_time:
-            population = inverted_dataset[i + 6]
-            result.extend(random.sample(population, pred[i] * len(population)))
-        else:
-            population = inverted_dataset[i + 6]
-            result.extend(random.sample(population, pred[i] * len(population)))
+    if pred:
+        for i in range(len(pred)):
+            if breakfast_time:
+                population = inverted_dataset[i + 6]
+                result.extend(random.sample(population, pred[i] * len(population)))
+            else:
+                population = inverted_dataset[i + 6]
+                result.extend(random.sample(population, pred[i] * len(population)))
     random.shuffle(result)
     return app.response_class(
         response=json.dumps({"status": "ok", "result": result, "predictions": list(pred)}),
@@ -101,6 +102,7 @@ def request_for_page(i):
                 index = i
             else:
                 index = i + 6
+    print(f"Page {i} requested")
     return app.response_class(
         response=json.dumps({"status": "ok", "result": inverted_dataset[index]}),
         status=200,
