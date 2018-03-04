@@ -5,6 +5,7 @@ import json
 import jinja2
 import sys
 import random
+import imblearn
 from collections import defaultdict
 from settings import MODEL_PATH, HEALTHY_PUBLICS
 
