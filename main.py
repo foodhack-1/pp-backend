@@ -77,7 +77,7 @@ def recommend():
         )
     random.shuffle(result)
     return app.response_class(
-        response=json.dumps({"status": "ok", "result": result, "predictions": list(pred)}),
+        response=json.dumps({"status": "ok", "result": random.sample(result, 20), "predictions": list(pred)}),
         status=200,
         mimetype='application/json'
     )
@@ -90,7 +90,7 @@ def request_for_page(i):
         i = int(i)
         index = i
         if data:
-            if not data.get("isBreakfast", 0):
+            if data.get("isBreakfast", 0):
                 index = i
             else:
                 if i == 2 or i == 5:
@@ -99,7 +99,7 @@ def request_for_page(i):
                     index = i + 6
         print("Page {} requested".format(i))
         return app.response_class(
-            response=json.dumps({"status": "ok", "result": inverted_dataset[index]}),
+            response=json.dumps({"status": "ok", "result": random.sample(inverted_dataset[index], 20)}),
             status=200,
             mimetype='application/json'
         )
