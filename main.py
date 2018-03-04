@@ -59,11 +59,11 @@ def recommend():
             status=400,
             mimetype='application/json')
     else:
-        breakfast_time = data.get("", 0)
+        breakfast_time = data.get("isBreakfast", 0)
         is_sporty = data.get('isSporty', 0)
         is_single = data.get('relation', 0)
         is_active = data.get('isActive', 0)
-        is_employed = data.get('is_employed', 0)
+        is_employed = data.get('isEmployed', 0)
         gender = data.get('sex', 0)
         subscriptions = data.get('subscriptions', [])
         is_healthy_eating = bool(HEALTHY_PUBLICS.intersection(subscriptions))
@@ -82,7 +82,7 @@ def recommend():
             result.extend(random.sample(population, pred[i] * len(population)))
     random.shuffle(result)
     return app.response_class(
-        response=json.dumps({"status": "ok", "result": result}),
+        response=json.dumps({"status": "ok", "result": result, "predictions": list(pred)}),
         status=200,
         mimetype='application/json'
     )
@@ -91,15 +91,18 @@ def recommend():
 @app.route("/page_<i>", methods=["GET", "POST"])
 def request_for_page(i):
     data = flask.request.get_json()
+    i = int(i)
+    index = 0
     if data:
         if not data.get("", 0):
-            return app.response_class(
-                response=json.dumps({"status": "ok", "result": inverted_dataset[i]}),
-                status=200,
-                mimetype='application/json'
-            )
+            index = i
+        else:
+            if i == 2 or i == 5:
+                index = i
+            else:
+                index = i + 6
     return app.response_class(
-        response=json.dumps({"status": "ok", "result": inverted_dataset[i + 6]}),
+        response=json.dumps({"status": "ok", "result": inverted_dataset[index]}),
         status=200,
         mimetype='application/json'
     )
