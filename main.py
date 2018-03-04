@@ -57,7 +57,7 @@ def recommend():
 
     result = []
     # try:
-    pred = clf.predict_proba(vector)
+    pred = clf.predict_proba(vector).ravel()
     for i in range(len(pred)):
         if breakfast_time:
             population = inverted_dataset[i]
