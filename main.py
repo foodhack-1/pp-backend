@@ -77,7 +77,7 @@ def recommend():
     #     )
     random.shuffle(result)
     return app.response_class(
-        response=json.dumps({"status": "ok", "result": result, "predictions": list(*pred)}),
+        response=json.dumps({"status": "ok", "result": result, "predictions": list(pred)}),
         status=200,
         mimetype='application/json'
     )
