@@ -56,22 +56,22 @@ def recommend():
         vector = [[is_sporty, is_single, is_active, is_employed, gender, is_healthy_eating, weight]]
 
     result = []
-    try:
-        pred = clf.predict_proba(vector)
-        for i in range(len(pred)):
-            if breakfast_time:
-                population = inverted_dataset[i + 6]
-                result.extend(random.sample(population, pred[i] * len(population)))
-            else:
-                population = inverted_dataset[i + 6]
-                result.extend(random.sample(population, pred[i] * len(population)))
-    except Exception as e:
-        print(str(sys.exc_info()[1]))
-        return app.response_class(
-            response=json.dumps({"status": "error", "result": result, "predictions": [0] * 7}),
-            status=400,
-            mimetype='application/json'
-        )
+    # try:
+    pred = clf.predict_proba(vector)
+    for i in range(len(pred)):
+        if breakfast_time:
+            population = inverted_dataset[i + 6]
+            result.extend(random.sample(population, pred[i] * len(population)))
+        else:
+            population = inverted_dataset[i + 6]
+            result.extend(random.sample(population, pred[i] * len(population)))
+    # except Exception as e:
+    #     print(str(sys.exc_info()[1]))
+    #     return app.response_class(
+    #         response=json.dumps({"status": "error", "result": result, "predictions": [0] * 7}),
+    #         status=400,
+    #         mimetype='application/json'
+    #     )
     random.shuffle(result)
     return app.response_class(
         response=json.dumps({"status": "ok", "result": result, "predictions": list(*pred)}),
