@@ -63,7 +63,7 @@ def recommend():
         is_sporty = data.get('isSporty', 0)
         is_single = data.get('relation', 0)
         is_active = data.get('isActive', 0)
-        is_employed = data.get('isEmployed', 0)
+        is_employed = data.get('occupation', 0)
         gender = data.get('sex', 0)
         subscriptions = data.get('subscriptions', [])
         is_healthy_eating = bool(HEALTHY_PUBLICS.intersection(subscriptions))
@@ -92,9 +92,9 @@ def recommend():
 def request_for_page(i):
     data = flask.request.get_json()
     i = int(i)
-    index = 0
+    index = i
     if data:
-        if not data.get("", 0):
+        if not data.get("isBreakfast", 0):
             index = i
         else:
             if i == 2 or i == 5:
