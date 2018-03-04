@@ -102,7 +102,7 @@ def request_for_page(i):
                 index = i
             else:
                 index = i + 6
-    print(f"Page {i} requested")
+    print("Page {} requested".format(i))
     return app.response_class(
         response=json.dumps({"status": "ok", "result": inverted_dataset[index]}),
         status=200,
